@@ -11,6 +11,25 @@ app
   .set('views', 'view')
   .get('/', home)
 
+io.on('connection', socket => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+io.on('connection', function (socket) {
+  socket.on('chat message', function (msg) {
+    console.log('message: ' + msg);
+  });
+});
+
+io.on('connection', function (socket) {
+  socket.on('chat message', function (msg) {
+    io.emit('chat message', msg);
+  });
+});
+
 function home(req, res) {
   res.render('home')
 }
