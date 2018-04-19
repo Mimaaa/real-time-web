@@ -2,13 +2,17 @@
 <%- include('head.ejs') %>
 
   <body>
-    <%- include('nav.ejs') %>
-    <h1>Welcome</h1>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" />
-      <button>Send</button>
-    </form>
+    <main>
+      <div id="mario-chat">
+        <div id="chat-window">
+          <div id="output"></div>
+          <div id="feedback"></div>
+        </div>
+        <input type="text" placeholder="Handle" id="handle">
+        <input type="text" placeholder="Message" id="message">
+        <button id="send">Send</button>
+      </div>
+    </main>
     <%- include('tail.ejs') %>
   </body>
 
