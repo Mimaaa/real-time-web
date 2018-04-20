@@ -1,30 +1,56 @@
-console.log('hoi')
+const socket = io();
 
-const socket = io()
+const loginForm = document.querySelector('section:nth-of-type(1)');
+const loginButton = document.querySelector('section:nth-of-type(1) button');
+const username = document.querySelector('section:nth-of-type(1) form label input');
+const chatForm = document.querySelector('section:nth-of-type(2)');
+const usersOnline = document.querySelector('section:nth-of-type(2) ul');
+const chatButton = document.querySelector('section:nth-of-type(2) > section:nth-of-type(2) > div:nth-of-type(1) form button');
+const message = document.querySelector('section:nth-of-type(2) > section:nth-of-type(2) > div:nth-of-type(1) form input');
+const output = document.querySelector('section:nth-of-type(2) > section:nth-of-type(2) > div:nth-of-type(1) ul');
+const feedback = document.querySelector('section:nth-of-type(2) > section:nth-of-type(2) > div:nth-of-type(1) > div:first-of-type > div');
 
-const message = document.getElementById('message')
-      handle = document.getElementById('handle')
-      btn = document.getElementById('send')
-      output = document.getElementById('output')
-      feedback = document.getElementById('feedback')
+loginButton.addEventListener('click', e => {
+  e.preventDefault();
+  socket.emit('new user', username.value, data => {
+    if (data) {
+      chatForm.style.display = 'flex';
+      loginForm.style.display = 'none';
+    }
+  });
+  username.innerHTML = '';
+});
 
-btn.addEventListener('click', function() {
-  socket.emit('chat', {
-    message: message.value,
-    handle: handle.value
-  })
-})
+socket.on('get users', data => {
+  let userArray = '';
+  data.forEach(username => {
+    userArray += `<li>${username}</li>`;
+  });
+  usersOnline.innerHTML = userArray;
+});
 
-socket.on('chat', function(data) {
-  feedback.innerHTML = ''
-  message.value = ''
-  output.innerHTML += '<p><strong>' + data.handle + '</strong> ' + data.message + '</p>'
-})
+chatButton.addEventListener('click', e => {
+  e.preventDefault();
+  if (message.value === '') {
+    e.preventDefault();
+  } else {
+    socket.emit('chat', {
+      message: message.value,
+      username: username.value
+    });
+  }
+});
 
-message.addEventListener('keypress', function() {
-  socket.emit('typing', handle.value)
-})
+socket.on('chat', data => {
+  feedback.innerHTML = '';
+  message.value = '';
+  output.innerHTML += `<li><strong>${data.username}:</strong> ${data.message}</li>`;
+});
 
-socket.on('typing', function(data) {
-  feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>'
-})
+message.addEventListener('keypress', () => {
+  socket.emit('typing', username.value);
+});
+
+socket.on('typing', data => {
+  feedback.innerHTML = `<p><em>${data} is typing a message...</em></p>`;
+});

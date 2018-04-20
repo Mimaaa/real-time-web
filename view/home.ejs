@@ -3,15 +3,33 @@
 
   <body>
     <main>
-      <div id="mario-chat">
-        <div id="chat-window">
-          <div id="output"></div>
-          <div id="feedback"></div>
-        </div>
-        <input type="text" placeholder="Handle" id="handle">
-        <input type="text" placeholder="Message" id="message">
-        <button id="send">Send</button>
-      </div>
+      <section>
+        <form>
+          <label>Enter Username
+            <input type="text" placeholder="i.e. John" autofocus>
+          </label>
+          <button>Login</button>
+        </form>
+      </section>
+      <section>
+        <section>
+          <h1>Online Users</h1>
+          <ul></ul>
+        </section>
+        <section>
+          <h1>Chat</h1>
+          <div>
+            <div>
+              <ul></ul>
+              <div></div>
+            </div>
+            <form>
+              <input type="text" placeholder="Type here..." autofocus>
+              <button>Send</button>
+            </form>
+          </div>
+        </section>
+      </section>
     </main>
     <%- include('tail.ejs') %>
   </body>
