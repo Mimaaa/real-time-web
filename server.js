@@ -50,4 +50,4 @@ function home(req, res) {
   res.render('home');
 }
 
-http.listen(1902);
+http.listen(process.env.PORT || 1902);
