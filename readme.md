@@ -2,6 +2,8 @@
 
 This is my repo for the first week of the Real-Time Web course.
 
+Check out the [demo](https://chatting-it-up.herokuapp.com/)
+
 # What is this project about?
 
 In the upcoming three weeks I'm going to learn how to work with real-time data.
